@@ -1,120 +1,67 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import Contact from './components/Contact'
+import Experience from './components/Experience'
+import Header from './components/Header'
+import Hero from './components/Hero'
+import Projects from './components/Projects'
+import Skills from './components/Skills'
+import { education, profile } from './data/cv'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <Header />
+
+      <main id="main">
+        <Hero />
+
+        <section id="about" className="section" aria-labelledby="about-heading">
+          <div className="container prose">
+            <h2 id="about-heading">About</h2>
+            {profile.about.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+
+        <Experience />
+        <Projects />
+        <Skills />
+
+        <section
+          id="education"
+          className="section"
+          aria-labelledby="education-heading"
+        >
+          <div className="container">
+            <h2 id="education-heading">Education</h2>
+            <ol className="timeline">
+              {education.map((study, index) => (
+                <li key={index}>
+                  <article className="card">
+                    <h3>{study.qualification}</h3>
+                    <p className="card__meta">{study.institution}</p>
+                    <p className="card__period">{study.period}</p>
+                  </article>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <Contact />
+      </main>
+
+      <footer className="site-footer">
+        <div className="container">
           <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
+            © {new Date().getFullYear()} {profile.name}
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      </footer>
     </>
   )
 }
