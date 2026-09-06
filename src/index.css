@@ -1,7 +1,6 @@
 /* Dark is the design's home base; light overrides the same tokens below. */
 :root {
   --bg: #0e0f13;
-  --surface-1: #1c1e26;
   --surface-2: #22242e;
   --border: #2b2d38;
   --border-strong: #3a3d4b;
@@ -15,7 +14,6 @@
      accent is light and the light accent is dark, so a single value fails
      one of the two. */
   --accent-contrast: #0e0f13;
-  --accent-bg: rgba(192, 132, 252, 0.12);
   --accent-border: rgba(192, 132, 252, 0.45);
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -58,7 +56,6 @@
 @media (prefers-color-scheme: light) {
   :root {
     --bg: #ffffff;
-    --surface-1: #efedf2;
     --surface-2: #e8e5ed;
     --border: #dedbe4;
     --border-strong: #c7c2d0;
@@ -69,7 +66,6 @@
 
     --accent: #7c22ce;
     --accent-contrast: #ffffff;
-    --accent-bg: rgba(124, 34, 206, 0.08);
     --accent-border: rgba(124, 34, 206, 0.35);
   }
 }
