@@ -1,27 +1,46 @@
+/* Dark is the design's home base; light overrides the same tokens below. */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --bg-soft: #faf9fb;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #8b2be2;
-  --accent-bg: rgba(139, 43, 226, 0.1);
-  --accent-border: rgba(139, 43, 226, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --bg: #0e0f13;
+  --surface-1: #1c1e26;
+  --surface-2: #22242e;
+  --border: #2b2d38;
+  --border-strong: #3a3d4b;
+
+  --text-h: #f4f4f6;
+  --text: #a8a5b4;
+  --text-muted: #918d9e;
+
+  --accent: #c084fc;
+  /* Foreground for solid-accent surfaces. Flips with the theme: the dark
+     accent is light and the light accent is dark, so a single value fails
+     one of the two. */
+  --accent-contrast: #0e0f13;
+  --accent-bg: rgba(192, 132, 252, 0.12);
+  --accent-border: rgba(192, 132, 252, 0.45);
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+  /* Type scale */
+  --fs-hero: clamp(2.75rem, 8.5vw, 7rem);
+  --fs-display: clamp(1.375rem, 2.4vw, 2rem);
+  --fs-title: clamp(1.125rem, 1.6vw, 1.375rem);
+  --fs-lead: clamp(1.0625rem, 1.5vw, 1.25rem);
+  --fs-small: 0.875rem;
+  --fs-label: 0.875rem;
+  --fs-micro: 0.75rem;
+  --tracking-label: 0.14em;
+
   /* Layout */
   --content-max: 72rem;
-  --gutter: clamp(1rem, 4vw, 2.5rem);
-  --section-gap: clamp(3rem, 8vw, 6rem);
-  --radius: 10px;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --section-gap: clamp(4rem, 10vw, 8rem);
+  --rail: clamp(8rem, 16vw, 12.5rem);
+  --radius: 8px;
+  --radius-pill: 999px;
 
-  font: 18px/145% var(--sans);
+  font: 18px/1.55 var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
@@ -36,19 +55,22 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --bg-soft: #1c1d24;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --bg: #ffffff;
+    --surface-1: #efedf2;
+    --surface-2: #e8e5ed;
+    --border: #dedbe4;
+    --border-strong: #c7c2d0;
+
+    --text-h: #08060d;
+    --text: #5c5566;
+    --text-muted: #6b6477;
+
+    --accent: #7c22ce;
+    --accent-contrast: #ffffff;
+    --accent-bg: rgba(124, 34, 206, 0.08);
+    --accent-border: rgba(124, 34, 206, 0.35);
   }
 }
 
@@ -62,12 +84,12 @@ html {
   scroll-behavior: smooth;
   /* Keep anchored sections clear of the sticky header, which is taller on
      narrow screens where the nav list wraps onto a second row. */
-  scroll-padding-top: 8.5rem;
+  scroll-padding-top: 7.5rem;
 }
 
 @media (min-width: 48em) {
   html {
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 5rem;
   }
 }
 
@@ -87,27 +109,32 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  line-height: 110%;
-  letter-spacing: -1.68px;
+  font-size: var(--fs-hero);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
   margin: 0 0 1rem;
 }
 
 h2 {
-  font-size: clamp(1.375rem, 3vw, 1.75rem);
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 1.5rem;
+  font-size: var(--fs-title);
+  line-height: 1.2;
+  margin: 0 0 1rem;
 }
 
 h3 {
-  font-size: 1.125rem;
-  line-height: 125%;
+  font-size: var(--fs-title);
+  line-height: 1.25;
   margin: 0 0 0.25rem;
 }
 
 p {
   margin: 0 0 1rem;
+}
+
+dl,
+dd {
+  margin: 0;
 }
 
 ul,
@@ -140,7 +167,7 @@ code {
   padding: 4px 8px;
   border-radius: 4px;
   color: var(--text-h);
-  background: var(--code-bg);
+  background: var(--surface-2);
 }
 
 @media (prefers-reduced-motion: reduce) {

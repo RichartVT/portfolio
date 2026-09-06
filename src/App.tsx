@@ -3,6 +3,7 @@ import Experience from './components/Experience'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Projects from './components/Projects'
+import SectionHeading from './components/SectionHeading'
 import Skills from './components/Skills'
 import { education, profile } from './data/cv'
 import './App.css'
@@ -19,11 +20,13 @@ function App() {
         <Hero />
 
         <section id="about" className="section" aria-labelledby="about-heading">
-          <div className="container prose">
-            <h2 id="about-heading">About</h2>
-            {profile.about.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
+          <div className="container">
+            <SectionHeading number="01" label="About" id="about-heading" />
+            <div className="prose">
+              {profile.about.map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -37,15 +40,21 @@ function App() {
           aria-labelledby="education-heading"
         >
           <div className="container">
-            <h2 id="education-heading">Education</h2>
-            <ol className="timeline">
+            <SectionHeading
+              number="05"
+              label="Education"
+              id="education-heading"
+            />
+            <ol>
               {education.map((study, index) => (
-                <li key={index}>
-                  <article className="card">
-                    <h3>{study.qualification}</h3>
-                    <p className="card__meta">{study.institution}</p>
-                    <p className="card__period">{study.period}</p>
-                  </article>
+                <li key={index} className="entry">
+                  <div className="entry__rail">
+                    <p className="entry__period">{study.period}</p>
+                  </div>
+                  <div className="entry__body">
+                    <h3 className="entry__title">{study.qualification}</h3>
+                    <p className="entry__org">{study.institution}</p>
+                  </div>
                 </li>
               ))}
             </ol>

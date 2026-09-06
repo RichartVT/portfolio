@@ -1,15 +1,18 @@
+import SectionHeading from './SectionHeading'
 import { skills } from '../data/cv'
 
 function Skills() {
   return (
     <section id="skills" className="section" aria-labelledby="skills-heading">
       <div className="container">
-        <h2 id="skills-heading">Skills</h2>
-        <ul className="grid">
+        <SectionHeading number="04" label="Skills" id="skills-heading" />
+        <ul>
           {skills.map((group, index) => (
-            <li key={index}>
-              <article className="card">
-                <h3>{group.category}</h3>
+            <li key={index} className="entry">
+              <div className="entry__rail">
+                <h3 className="entry__label">{group.category}</h3>
+              </div>
+              <div className="entry__body">
                 <ul className="tags">
                   {group.items.map((item, itemIndex) => (
                     <li key={itemIndex} className="tag">
@@ -17,7 +20,7 @@ function Skills() {
                     </li>
                   ))}
                 </ul>
-              </article>
+              </div>
             </li>
           ))}
         </ul>

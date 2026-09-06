@@ -1,3 +1,4 @@
+import SectionHeading from './SectionHeading'
 import { experience } from '../data/cv'
 
 function Experience() {
@@ -8,22 +9,23 @@ function Experience() {
       aria-labelledby="experience-heading"
     >
       <div className="container">
-        <h2 id="experience-heading">Experience</h2>
-        <ol className="timeline">
+        <SectionHeading number="02" label="Experience" id="experience-heading" />
+        <ol>
           {experience.map((job, index) => (
-            <li key={index}>
-              <article className="card">
-                <h3>{job.role}</h3>
-                <p className="card__meta">
-                  {job.company} · {job.location}
-                </p>
-                <p className="card__period">{job.period}</p>
-                <ul className="card__bullets">
-                  {job.bullets.map((bullet, index) => (
-                    <li key={index}>{bullet}</li>
+            <li key={index} className="entry">
+              <div className="entry__rail">
+                <p className="entry__period">{job.period}</p>
+                <p className="entry__location">{job.location}</p>
+              </div>
+              <div className="entry__body">
+                <h3 className="entry__title">{job.role}</h3>
+                <p className="entry__org">{job.company}</p>
+                <ul className="entry__bullets">
+                  {job.bullets.map((bullet, bulletIndex) => (
+                    <li key={bulletIndex}>{bullet}</li>
                   ))}
                 </ul>
-              </article>
+              </div>
             </li>
           ))}
         </ol>

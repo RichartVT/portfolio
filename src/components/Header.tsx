@@ -9,9 +9,14 @@ function Header() {
         </a>
         <nav aria-label="Main">
           <ul className="site-header__nav">
-            {navItems.map((item) => (
+            {navItems.map((item, index) => (
               <li key={item.id}>
-                <a href={`#${item.id}`}>{item.label}</a>
+                <a href={`#${item.id}`}>
+                  <span className="site-header__num" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  {item.label}
+                </a>
               </li>
             ))}
           </ul>
