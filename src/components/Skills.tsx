@@ -5,7 +5,7 @@ function Skills() {
   return (
     <section id="skills" className="section" aria-labelledby="skills-heading">
       <div className="container">
-        <SectionHeading number="04" label="Skills" id="skills-heading" />
+        <SectionHeading number="04" label="Technical Skills" id="skills-heading" />
         <ul>
           {skills.map((group, index) => (
             <li key={index} className="entry">

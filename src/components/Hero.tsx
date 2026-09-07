@@ -1,8 +1,6 @@
-import { contactLinks, experience, profile } from '../data/cv'
+import { contactLinks, profile } from '../data/cv'
 
 function Hero() {
-  const current = experience[0]
-
   return (
     <section id="hero" className="hero" aria-labelledby="hero-heading">
       <div className="container hero__inner">
@@ -14,7 +12,7 @@ function Hero() {
             <a className="button button--primary" href="#contact">
               Get in touch
             </a>
-            <a className="button button--ghost" href="#projects">
+            <a className="button button--ghost" href="#work">
               View work <span aria-hidden="true">↓</span>
             </a>
           </div>
@@ -27,15 +25,15 @@ function Hero() {
               <dd className="meta__value">{profile.location}</dd>
             </div>
 
-            {current ? (
-              <div className="meta__row">
-                <dt className="meta__label">Currently</dt>
-                <dd className="meta__value">
-                  {current.role}
-                  <span className="meta__sub">{current.company}</span>
-                </dd>
-              </div>
-            ) : null}
+            <div className="meta__row">
+              <dt className="meta__label">Studying</dt>
+              <dd className="meta__value">{profile.status}</dd>
+            </div>
+
+            <div className="meta__row">
+              <dt className="meta__label">Looking for</dt>
+              <dd className="meta__value">{profile.objective}</dd>
+            </div>
 
             <div className="meta__row">
               <dt className="meta__label">Elsewhere</dt>
