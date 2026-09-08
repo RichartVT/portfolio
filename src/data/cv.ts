@@ -79,9 +79,9 @@ export const projects: Project[] = [
   {
     name: 'NBA Stats / NBA Analytics',
     description:
-      'A data-focused NBA statistics project built to collect, structure and analyze basketball data. It has evolved beyond simply displaying statistics into a project where I have worked on data ingestion, database modeling and analytical queries.',
+      'A full-stack NBA analytics platform that turns five seasons of data into player and team analysis, reliability studies and out-of-sample game forecasts through a FastAPI backend and React/TypeScript interface.',
     context: 'Personal project · Ongoing development',
-    tech: ['Python', 'PostgreSQL', 'SQLAlchemy', 'Alembic', 'SQL'],
+    tech: ['Python', 'FastAPI', 'PostgreSQL', 'React', 'TypeScript'],
     learned:
       'This project has taught me how much the quality of a data product depends on decisions made before the information ever reaches the interface: how data is modeled, ingested, queried and optimized. It is also the clearest example of how I tend to keep iterating on something even after the first version works.',
     repo: 'https://github.com/RichartVT/nbastats',
