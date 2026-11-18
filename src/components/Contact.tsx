@@ -1,20 +1,26 @@
 import SectionHeading from './SectionHeading'
-import { contactIntro, contactLinks } from '../data/cv'
+import { useLanguage } from '../i18n/context'
 
 function Contact() {
+  const { t } = useLanguage()
+
   return (
     <section id="contact" className="section" aria-labelledby="contact-heading">
       <div className="container">
-        <SectionHeading number="06" label="Contact" id="contact-heading" />
-        <p className="contact__intro">{contactIntro}</p>
+        <SectionHeading
+          number="06"
+          label={t.ui.sections.contact}
+          id="contact-heading"
+        />
+        <p className="contact__intro">{t.contactIntro}</p>
         <ul>
-          {contactLinks.map((link) => {
+          {t.contactLinks.map((link) => {
             // Same rule as Projects: placeholder hrefs render as plain text.
             const href = link.href && link.href !== '#' ? link.href : undefined
             const isExternal = href?.startsWith('http') ?? false
 
             return (
-              <li key={link.label} className="contact__row">
+              <li key={link.href} className="contact__row">
                 <span className="contact__label">{link.label}</span>
                 <span className="contact__value">
                   {href ? (
@@ -27,7 +33,7 @@ function Contact() {
                       <span aria-hidden="true">↗</span>
                       {isExternal ? (
                         <span className="visually-hidden">
-                          (opens in a new tab)
+                          {t.ui.opensInNewTab}
                         </span>
                       ) : null}
                     </a>

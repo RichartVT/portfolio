@@ -150,6 +150,13 @@
   padding-block: 0.75rem;
 }
 
+.site-header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .site-header__name {
   font-size: var(--fs-small);
   font-weight: 600;
@@ -191,14 +198,68 @@
   .site-header__inner {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
     gap: 1.5rem;
     padding-block: 1rem;
+  }
+
+  /* Unwrap so name, nav and switch line up as one row: name left, the rest
+     pushed right. */
+  .site-header__top {
+    display: contents;
+  }
+
+  .site-header__inner nav {
+    order: 1;
+    margin-inline-start: auto;
+  }
+
+  .lang-switch {
+    order: 2;
   }
 
   .site-header__nav {
     flex-wrap: nowrap;
   }
+}
+
+/* --------------------------------------------------------- Language switch */
+
+.lang-switch {
+  display: inline-flex;
+  flex-shrink: 0;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+
+.lang-switch__option {
+  padding: 0.2rem 0.6rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
+}
+
+.lang-switch__option:hover {
+  color: var(--text-h);
+}
+
+.lang-switch__option[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.lang-switch__option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 @media (min-width: 64em) {

@@ -1,6 +1,9 @@
-import { contactLinks, profile } from '../data/cv'
+import { useLanguage } from '../i18n/context'
 
 function Hero() {
+  const { t } = useLanguage()
+  const { profile, ui } = t
+
   return (
     <section id="hero" className="hero" aria-labelledby="hero-heading">
       <div className="container hero__inner">
@@ -10,36 +13,36 @@ function Hero() {
           <p className="hero__statement">{profile.tagline}</p>
           <div className="hero__actions">
             <a className="button button--primary" href="#contact">
-              Get in touch
+              {ui.getInTouch}
             </a>
             <a className="button button--ghost" href="#work">
-              View work <span aria-hidden="true">↓</span>
+              {ui.viewWork} <span aria-hidden="true">↓</span>
             </a>
           </div>
         </div>
 
-        <aside className="hero__meta" aria-label="Profile details">
+        <aside className="hero__meta" aria-label={ui.profileDetails}>
           <dl>
             <div className="meta__row">
-              <dt className="meta__label">Location</dt>
+              <dt className="meta__label">{ui.location}</dt>
               <dd className="meta__value">{profile.location}</dd>
             </div>
 
             <div className="meta__row">
-              <dt className="meta__label">Studying</dt>
+              <dt className="meta__label">{ui.studying}</dt>
               <dd className="meta__value">{profile.status}</dd>
             </div>
 
             <div className="meta__row">
-              <dt className="meta__label">Looking for</dt>
+              <dt className="meta__label">{ui.lookingFor}</dt>
               <dd className="meta__value">{profile.objective}</dd>
             </div>
 
             <div className="meta__row">
-              <dt className="meta__label">Elsewhere</dt>
+              <dt className="meta__label">{ui.elsewhere}</dt>
               <dd className="meta__value">
                 <ul className="meta__links">
-                  {contactLinks.map((link) => {
+                  {t.contactLinks.map((link) => {
                     // Same rule as Projects and Contact: placeholder hrefs
                     // render as plain text with no affordance.
                     const href =
@@ -47,7 +50,7 @@ function Hero() {
                     const isExternal = href?.startsWith('http') ?? false
 
                     return (
-                      <li key={link.label}>
+                      <li key={link.href}>
                         {href ? (
                           <a
                             href={href}
@@ -58,7 +61,7 @@ function Hero() {
                             <span aria-hidden="true">↗</span>
                             {isExternal ? (
                               <span className="visually-hidden">
-                                (opens in a new tab)
+                                {ui.opensInNewTab}
                               </span>
                             ) : null}
                           </a>

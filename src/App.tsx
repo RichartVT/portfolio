@@ -5,14 +5,17 @@ import Principles from './components/Principles'
 import Projects from './components/Projects'
 import SectionHeading from './components/SectionHeading'
 import Skills from './components/Skills'
-import { journey, profile, training } from './data/cv'
+import { useLanguage } from './i18n/context'
 import './App.css'
 
 function App() {
+  const { t } = useLanguage()
+  const { journey, profile, training } = t
+
   return (
     <>
       <a className="skip-link" href="#main">
-        Skip to content
+        {t.ui.skipLink}
       </a>
       <Header />
 
@@ -25,7 +28,7 @@ function App() {
 
         <section id="story" className="section" aria-labelledby="story-heading">
           <div className="container">
-            <SectionHeading number="02" label="My Story" id="story-heading" />
+            <SectionHeading number="02" label={t.ui.sections.story} id="story-heading" />
             <div className="prose">
               {profile.about.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
@@ -45,7 +48,7 @@ function App() {
           aria-labelledby="journey-heading"
         >
           <div className="container">
-            <SectionHeading number="05" label="Journey" id="journey-heading" />
+            <SectionHeading number="05" label={t.ui.sections.journey} id="journey-heading" />
             <ol>
               {journey.map((study, index) => (
                 <li key={index} className="entry">

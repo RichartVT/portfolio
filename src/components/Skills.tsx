@@ -1,13 +1,19 @@
 import SectionHeading from './SectionHeading'
-import { skills } from '../data/cv'
+import { useLanguage } from '../i18n/context'
 
 function Skills() {
+  const { t } = useLanguage()
+
   return (
     <section id="skills" className="section" aria-labelledby="skills-heading">
       <div className="container">
-        <SectionHeading number="04" label="Technical Skills" id="skills-heading" />
+        <SectionHeading
+          number="04"
+          label={t.ui.sections.skills}
+          id="skills-heading"
+        />
         <ul>
-          {skills.map((group, index) => (
+          {t.skills.map((group, index) => (
             <li key={index} className="entry">
               <div className="entry__rail">
                 <h3 className="entry__label">{group.category}</h3>

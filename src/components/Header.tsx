@@ -1,15 +1,21 @@
-import { navItems, profile } from '../data/cv'
+import LanguageSwitch from './LanguageSwitch'
+import { useLanguage } from '../i18n/context'
 
 function Header() {
+  const { t } = useLanguage()
+
   return (
     <header className="site-header">
       <div className="container site-header__inner">
-        <a className="site-header__name" href="#hero">
-          {profile.name}
-        </a>
-        <nav aria-label="Main">
+        <div className="site-header__top">
+          <a className="site-header__name" href="#hero">
+            {t.profile.name}
+          </a>
+          <LanguageSwitch />
+        </div>
+        <nav aria-label={t.ui.mainNav}>
           <ul className="site-header__nav">
-            {navItems.map((item, index) => (
+            {t.navItems.map((item, index) => (
               <li key={item.id}>
                 <a href={`#${item.id}`}>
                   <span className="site-header__num" aria-hidden="true">

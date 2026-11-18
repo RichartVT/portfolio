@@ -1,13 +1,19 @@
 import SectionHeading from './SectionHeading'
-import { principles } from '../data/cv'
+import { useLanguage } from '../i18n/context'
 
 function Principles() {
+  const { t } = useLanguage()
+
   return (
     <section id="approach" className="section" aria-labelledby="approach-heading">
       <div className="container">
-        <SectionHeading number="03" label="How I Work" id="approach-heading" />
+        <SectionHeading
+          number="03"
+          label={t.ui.sections.approach}
+          id="approach-heading"
+        />
         <ul>
-          {principles.map((principle, index) => (
+          {t.principles.map((principle, index) => (
             <li key={index} className="entry">
               <div className="entry__rail">
                 <h3 className="entry__label">{principle.title}</h3>

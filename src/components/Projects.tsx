@@ -1,5 +1,5 @@
 import SectionHeading from './SectionHeading'
-import { projects } from '../data/cv'
+import { useLanguage } from '../i18n/context'
 
 /** Placeholder or missing URLs get no link — an arrow that goes nowhere is
  *  worse than no arrow. */
@@ -8,12 +8,14 @@ function realHref(url?: string) {
 }
 
 function Projects() {
+  const { t } = useLanguage()
+
   return (
     <section id="work" className="section" aria-labelledby="work-heading">
       <div className="container">
-        <SectionHeading number="01" label="Selected Work" id="work-heading" />
+        <SectionHeading number="01" label={t.ui.sections.work} id="work-heading" />
         <ol>
-          {projects.map((project, index) => {
+          {t.projects.map((project, index) => {
             const repo = realHref(project.repo)
             const demo = realHref(project.demo)
 
@@ -31,7 +33,7 @@ function Projects() {
                   ) : null}
                   <ul
                     className="techlist"
-                    aria-label={`Technologies used in ${project.name}`}
+                    aria-label={t.ui.techUsedIn(project.name)}
                   >
                     {project.tech.map((tech, techIndex) => (
                       <li key={techIndex}>{tech}</li>
@@ -42,10 +44,10 @@ function Projects() {
                       {repo ? (
                         <li>
                           <a href={repo} target="_blank" rel="noreferrer">
-                            Code
+                            {t.ui.code}
                             <span aria-hidden="true">↗</span>
                             <span className="visually-hidden">
-                              for {project.name} (opens in a new tab)
+                              {t.ui.codeFor(project.name)} {t.ui.opensInNewTab}
                             </span>
                           </a>
                         </li>
@@ -53,10 +55,10 @@ function Projects() {
                       {demo ? (
                         <li>
                           <a href={demo} target="_blank" rel="noreferrer">
-                            Live demo
+                            {t.ui.liveDemo}
                             <span aria-hidden="true">↗</span>
                             <span className="visually-hidden">
-                              of {project.name} (opens in a new tab)
+                              {t.ui.demoOf(project.name)} {t.ui.opensInNewTab}
                             </span>
                           </a>
                         </li>
