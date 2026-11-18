@@ -15,7 +15,7 @@ export const LanguageContext = createContext<LanguageContextValue>({
 
 export const STORAGE_KEY = 'lang'
 
-/** A saved choice wins; otherwise follow the browser, defaulting to English. */
+/** English by default; a visitor's own choice is remembered. */
 export function detectLanguage(): Lang {
   try {
     const saved = localStorage.getItem(STORAGE_KEY)
@@ -23,7 +23,7 @@ export function detectLanguage(): Lang {
   } catch {
     // Storage blocked (private mode, disabled cookies): fall through.
   }
-  return navigator.language?.toLowerCase().startsWith('es') ? 'es' : 'en'
+  return 'en'
 }
 
 export function useLanguage() {

@@ -78,9 +78,8 @@
 
 html {
   scroll-behavior: smooth;
-  /* Keep anchored sections clear of the sticky header, which is taller on
-     narrow screens where the nav list wraps onto a second row. */
-  scroll-padding-top: 7.5rem;
+  /* Keep anchored sections clear of the sticky header. */
+  scroll-padding-top: 4.5rem;
 }
 
 @media (min-width: 48em) {

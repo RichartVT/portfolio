@@ -61,6 +61,8 @@ export type UiStrings = {
   skipLink: string
   mainNav: string
   languageSwitch: string
+  openMenu: string
+  closeMenu: string
   getInTouch: string
   viewWork: string
   profileDetails: string
@@ -90,6 +92,8 @@ export type Content = {
   navItems: NavItem[]
   profile: {
     name: string
+    /** Leading part of the name that fits the phone header. */
+    shortName: string
     title: string
     tagline: string
     location: string
@@ -109,6 +113,7 @@ export type Content = {
 /* ------------------------------------------------ Language-neutral data */
 
 const name = 'Richart Vázquez de la Torre'
+const shortName = 'Richart Vázquez'
 
 const repos = {
   nbaStats: 'https://github.com/RichartVT/nbastats',
@@ -153,6 +158,8 @@ const en: Content = {
     skipLink: 'Skip to content',
     mainNav: 'Main',
     languageSwitch: 'Language',
+    openMenu: 'Open menu',
+    closeMenu: 'Close menu',
     getInTouch: 'Get in touch',
     viewWork: 'View work',
     profileDetails: 'Profile details',
@@ -185,6 +192,7 @@ const en: Content = {
   ],
   profile: {
     name,
+    shortName,
     title: 'Software Developer',
     tagline:
       'I build software to learn deeply, connecting full-stack development, data, and continuous improvement.',
@@ -351,13 +359,15 @@ const es: Content = {
     skipLink: 'Saltar al contenido',
     mainNav: 'Principal',
     languageSwitch: 'Idioma',
+    openMenu: 'Abrir menú',
+    closeMenu: 'Cerrar menú',
     getInTouch: 'Contáctame',
     viewWork: 'Ver proyectos',
     profileDetails: 'Datos del perfil',
     location: 'Ubicación',
     studying: 'Estudios',
-    lookingFor: 'Busco',
-    elsewhere: 'En otros sitios',
+    lookingFor: 'Qué busco',
+    elsewhere: 'Links',
     opensInNewTab: '(se abre en una pestaña nueva)',
     code: 'Código',
     liveDemo: 'Demo',
@@ -383,6 +393,7 @@ const es: Content = {
   ],
   profile: {
     name,
+    shortName,
     title: 'Desarrollador de Software',
     tagline:
       'Construyo software para aprender a fondo, conectando el desarrollo full-stack, los datos y la mejora continua.',
@@ -390,7 +401,7 @@ const es: Content = {
     status:
       'Estudiante de Ingeniería en Sistemas Computacionales en el Instituto Tecnológico de Celaya.',
     objective:
-      'Busco una residencia profesional o mi primera oportunidad en desarrollo de software a partir de diciembre de 2026, con especial interés en desarrollo full-stack y datos.',
+      'Residencia profesional o primer empleo como desarrollador de software a partir de diciembre de 2026, idealmente en full-stack y datos.',
     about: [
       'La programación llegó a mi vida durante la pandemia de 2020–2021, cuando acababa de empezar a estudiar Economía en la UNAM. Con más tiempo en casa, decidí que quería construir un sitio web y empecé a aprender a programar por mi cuenta. Una de las cosas que más me llamó la atención fue ver cómo una línea de HTML se convertía en algo visible en el navegador. Me gustó esa conexión directa entre una idea, el código que escribía y el resultado que producía.',
       'Lo que empezó como curiosidad terminó cambiando el rumbo que quería para mi carrera. Seguí aprendiendo a programar de forma autodidacta y, en 2022, comencé a estudiar Ingeniería en Sistemas Computacionales. Desde entonces he combinado mi formación universitaria con el aprendizaje autodirigido. La universidad me ha dado bases importantes, mientras que los cursos, la documentación y los proyectos personales me han permitido explorar tecnologías que no siempre forman parte del aula.',
@@ -453,7 +464,7 @@ const es: Content = {
   ],
   skills: [
     { category: 'Lenguajes', items: skillItems.languages },
-    { category: 'Frontend y móvil', items: skillItems.frontend },
+    { category: 'Frontend & Mobile', items: skillItems.frontend },
     { category: 'Backend', items: skillItems.backend },
     { category: 'Datos', items: skillItems.data },
     { category: 'Herramientas y plataformas', items: skillItems.tools },
@@ -465,7 +476,7 @@ const es: Content = {
       qualification: 'Inicio autodidacta',
       detail:
         'Empecé a aprender programación por mi cuenta mientras estudiaba Economía en la UNAM.',
-      items: ['Python', 'JavaScript', 'Fundamentos web'],
+      items: ['Python', 'JavaScript', 'Web fundamentals'],
     },
     {
       period: '2021',
@@ -503,8 +514,8 @@ const es: Content = {
     period: 'Aprendizaje continuo',
     heading: 'Formación complementaria',
     items: [
-      'Programación en Python',
-      'JavaScript: fundamentos y temas avanzados',
+      'Python programming',
+      'JavaScript fundamentals and advanced topics',
       'JavaScript Moderno',
       'React: De cero a experto',
       'Node: De cero a experto',
@@ -516,9 +527,9 @@ const es: Content = {
     ],
   },
   contactIntro:
-    'Actualmente busco una residencia profesional, prácticas o mi primera oportunidad en desarrollo de software, donde pueda contribuir a proyectos reales y seguir creciendo como desarrollador. Me interesa especialmente el trabajo full-stack y orientado a datos. Disponible para residencia profesional a partir de diciembre de 2026.',
+    'Estoy buscando una residencia profesional, prácticas o mi primer empleo en desarrollo de software: un equipo donde pueda aportar en proyectos reales y seguir creciendo como desarrollador. Me interesa sobre todo el trabajo full-stack y con datos. Disponible a partir de diciembre de 2026.',
   contactLinks: [
-    { label: 'Correo', value: email, href: `mailto:${email}` },
+    { label: 'Email', value: email, href: `mailto:${email}` },
     { label: 'GitHub', value: github, href: `https://${github}` },
   ],
 }
