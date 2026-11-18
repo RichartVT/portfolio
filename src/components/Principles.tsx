@@ -8,7 +8,7 @@ function Principles() {
     <section id="approach" className="section" aria-labelledby="approach-heading">
       <div className="container">
         <SectionHeading
-          number="03"
+          number="04"
           label={t.ui.sections.approach}
           id="approach-heading"
         />

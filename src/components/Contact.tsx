@@ -1,3 +1,4 @@
+import CopyEmail from './CopyEmail'
 import SectionHeading from './SectionHeading'
 import { useLanguage } from '../i18n/context'
 
@@ -8,7 +9,7 @@ function Contact() {
     <section id="contact" className="section" aria-labelledby="contact-heading">
       <div className="container">
         <SectionHeading
-          number="06"
+          number="07"
           label={t.ui.sections.contact}
           id="contact-heading"
         />
@@ -40,10 +41,23 @@ function Contact() {
                   ) : (
                     link.value
                   )}
+                  {href?.startsWith('mailto:') ? (
+                    <CopyEmail email={link.value} />
+                  ) : null}
                 </span>
               </li>
             )
           })}
+          <li className="contact__row">
+            <span className="contact__label">CV</span>
+            <span className="contact__value">
+              <a href={t.ui.cvFile} download>
+                {t.ui.downloadCv}
+                <span aria-hidden="true">↓</span>
+              </a>
+              <span className="contact__note">PDF</span>
+            </span>
+          </li>
         </ul>
       </div>
     </section>

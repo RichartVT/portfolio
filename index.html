@@ -30,6 +30,36 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="es_MX" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Structured data: lets search engines show a proper profile card. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Richart Vázquez de la Torre",
+        "jobTitle": "Software Developer",
+        "url": "https://www.richart.dev/",
+        "image": "https://www.richart.dev/og-image.png",
+        "email": "mailto:richartvdt@gmail.com",
+        "address": { "@type": "PostalAddress", "addressCountry": "MX" },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Instituto Tecnológico de Celaya"
+        },
+        "knowsAbout": [
+          "Full-stack development",
+          "React",
+          "TypeScript",
+          "Node.js",
+          "Python",
+          "Java",
+          "SQL",
+          "MongoDB",
+          "AWS"
+        ],
+        "sameAs": ["https://github.com/RichartVT"]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -22,8 +22,15 @@ function Header() {
         <div className="site-header__top">
           <a
             className="site-header__name"
-            href="#hero"
-            onClick={() => setMenuOpen(false)}
+            href="/"
+            onClick={(event) => {
+              // Same page: scroll to the top and drop any #section from the
+              // address bar instead of reloading.
+              event.preventDefault()
+              setMenuOpen(false)
+              window.history.replaceState(null, '', '/')
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
           >
             {t.profile.shortName}
             <span className="site-header__name-rest">

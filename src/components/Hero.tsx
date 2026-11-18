@@ -1,3 +1,4 @@
+import { avatar } from '../data/cv'
 import { useLanguage } from '../i18n/context'
 
 function Hero() {
@@ -8,6 +9,14 @@ function Hero() {
     <section id="hero" className="hero" aria-labelledby="hero-heading">
       <div className="container hero__inner">
         <div className="hero__lead">
+          <img
+            className="hero__avatar"
+            src={avatar}
+            alt={profile.name}
+            width={64}
+            height={64}
+            fetchPriority="high"
+          />
           <p className="eyebrow">{profile.title}</p>
           <h1 id="hero-heading">{profile.name}</h1>
           <p className="hero__statement">{profile.tagline}</p>
@@ -15,8 +24,8 @@ function Hero() {
             <a className="button button--primary" href="#contact">
               {ui.getInTouch}
             </a>
-            <a className="button button--ghost" href="#work">
-              {ui.viewWork} <span aria-hidden="true">↓</span>
+            <a className="button button--ghost" href={ui.cvFile} download>
+              {ui.downloadCv} <span aria-hidden="true">↓</span>
             </a>
           </div>
         </div>

@@ -15,6 +15,8 @@
      one of the two. */
   --accent-contrast: #0e0f13;
   --accent-border: rgba(192, 132, 252, 0.45);
+  /* Success state (e.g. "Copied"). */
+  --ok: #4ade80;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -67,6 +69,7 @@
     --accent: #7c22ce;
     --accent-contrast: #ffffff;
     --accent-border: rgba(124, 34, 206, 0.35);
+    --ok: #15803d;
   }
 }
 

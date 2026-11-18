@@ -1,3 +1,5 @@
+import About from './components/About'
+import Certifications from './components/Certifications'
 import Contact from './components/Contact'
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -10,7 +12,7 @@ import './App.css'
 
 function App() {
   const { t } = useLanguage()
-  const { journey, profile, training } = t
+  const { journey, profile } = t
 
   return (
     <>
@@ -37,6 +39,7 @@ function App() {
           </div>
         </section>
 
+        <About />
         <Principles />
         <Skills />
 
@@ -48,7 +51,7 @@ function App() {
           aria-labelledby="journey-heading"
         >
           <div className="container">
-            <SectionHeading number="05" label={t.ui.sections.journey} id="journey-heading" />
+            <SectionHeading number="06" label={t.ui.sections.journey} id="journey-heading" />
             <ol>
               {journey.map((study, index) => (
                 <li key={index} className="entry">
@@ -71,26 +74,26 @@ function App() {
                         ))}
                       </ul>
                     ) : null}
+                    {study.proof ? (
+                      <a
+                        className="entry__proof"
+                        href={study.proof}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {t.ui.viewDocument}
+                        <span aria-hidden="true">↗</span>
+                        <span className="visually-hidden">
+                          {t.ui.opensInNewTab}
+                        </span>
+                      </a>
+                    ) : null}
                   </div>
                 </li>
               ))}
-
-              {/* Training rides along as one compact entry rather than a
-                  certificate per line. */}
-              <li className="entry">
-                <div className="entry__rail">
-                  <p className="entry__period">{training.period}</p>
-                </div>
-                <div className="entry__body">
-                  <h3 className="entry__title">{training.heading}</h3>
-                  <ul className="entry__bullets">
-                    {training.items.map((item, index) => (
-                      <li key={index}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </li>
             </ol>
+
+            <Certifications />
           </div>
         </section>
 

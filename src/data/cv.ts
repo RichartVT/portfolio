@@ -1,3 +1,5 @@
+import type { TechId } from './tech'
+
 export type Lang = 'en' | 'es'
 
 export const languages: { code: Lang; short: string; name: string }[] = [
@@ -29,7 +31,7 @@ export type Principle = {
 
 export type SkillGroup = {
   category: string
-  items: string[]
+  items: TechId[]
 }
 
 export type Study = {
@@ -42,12 +44,45 @@ export type Study = {
   detail?: string
   /** Short supporting list, rendered like a project's tech line. */
   items?: string[]
+  /** Link to the supporting document (certificate, official letter). */
+  proof?: string
+}
+
+export type Certification = {
+  /** Course title exactly as printed on the certificate. */
+  title: string
+  issuer: string
+  /** Completion month; formatted per language at render time. */
+  date: { year: number; month: number }
+  /** First-page thumbnail. */
+  image: string
+  /** The PDF, or the issuer's verification page. */
+  href: string
+  verifiedOn?: 'Credly'
 }
 
 export type Training = {
-  period: string
   heading: string
-  items: string[]
+  intro: string
+  items: Certification[]
+}
+
+export type MediaItem =
+  | { kind: 'image'; src: string; thumb: string; alt: string; caption: string }
+  | { kind: 'video'; src: string; poster: string; alt: string; caption: string }
+
+export type Interest = {
+  icon: 'learn' | 'gym' | 'bike' | 'football'
+  title: string
+  body: string
+}
+
+export type About = {
+  portraitAlt: string
+  intro: string
+  interests: Interest[]
+  galleryHeading: string
+  gallery: MediaItem[]
 }
 
 export type ContactLink = {
@@ -64,7 +99,6 @@ export type UiStrings = {
   openMenu: string
   closeMenu: string
   getInTouch: string
-  viewWork: string
   profileDetails: string
   location: string
   studying: string
@@ -76,9 +110,25 @@ export type UiStrings = {
   codeFor: (project: string) => string
   demoOf: (project: string) => string
   techUsedIn: (project: string) => string
+  copyEmail: string
+  copied: string
+  downloadCv: string
+  /** File name stem under /cv/, e.g. Richart-Vazquez-CV-EN.pdf */
+  cvFile: string
+  cvProfile: string
+  stackHeading: string
+  mernCaption: string
+  viewCertificate: string
+  verifyOn: (platform: string) => string
+  viewDocument: string
+  playVideo: string
+  closeDialog: string
+  previous: string
+  next: string
   sections: {
     work: string
     story: string
+    about: string
     approach: string
     skills: string
     journey: string
@@ -104,6 +154,7 @@ export type Content = {
   projects: Project[]
   principles: Principle[]
   skills: SkillGroup[]
+  about: About
   journey: Study[]
   training: Training
   contactIntro: string
@@ -117,6 +168,8 @@ const shortName = 'Richart Vázquez'
 
 const repos = {
   nbaStats: 'https://github.com/RichartVT/nbastats',
+  evaluacionEgreso: 'https://github.com/RichartVT/evaluacion-egreso',
+  homeBites: 'https://github.com/RichartVT/home-bites',
   runtahPedia: 'https://github.com/RichartVT/flutter_runtahpedia',
 }
 
@@ -132,15 +185,131 @@ const tech = {
     'MVVM',
   ],
   dataWarehouse: ['SQL Server', 'SSIS', 'SSAS', 'SQL', 'OLAP'],
+  evaluacionEgreso: ['Node.js', 'Express', 'MySQL', 'JWT', 'bcrypt', 'Nodemailer'],
+  homeBites: [
+    'Flutter',
+    'Dart',
+    'Firebase',
+    'Cloud Messaging',
+    'Stripe',
+    'Provider',
+  ],
 }
 
 /** No proficiency labels by design — the grouping is the only claim made. */
 const skillItems = {
-  languages: ['JavaScript', 'TypeScript', 'Python', 'SQL'],
-  frontend: ['React', 'Flutter'],
-  backend: ['Node.js', 'Express'],
-  data: ['PostgreSQL', 'MySQL'],
-  tools: ['Git', 'Docker'],
+  languages: ['javascript', 'typescript', 'python', 'java', 'dart', 'sql'],
+  frontend: ['react', 'astro', 'flutter'],
+  backend: ['nodejs', 'express', 'fastapi'],
+  data: ['postgresql', 'mysql', 'sqlserver', 'mongodb', 'powerbi', 'dbeaver'],
+  cloud: ['aws', 'docker', 'git'],
+} satisfies Record<string, TechId[]>
+
+const portrait = '/images/me/portrait.webp'
+export const portraitSrcSet =
+  '/images/me/portrait-800.webp 800w, /images/me/portrait.webp 1600w'
+export const avatar = '/images/me/avatar.webp'
+export { portrait }
+
+const life = (name: string) => ({
+  src: `/images/life/${name}.webp`,
+  thumb: `/images/life/${name}-sm.webp`,
+})
+const clip = (name: string) => ({
+  src: `/videos/${name}.mp4`,
+  poster: `/videos/${name}-poster.webp`,
+})
+
+const cert = (slug: string) => ({
+  image: `/certificates/${slug}.webp`,
+  href: `/certificates/${slug}.pdf`,
+})
+
+/**
+ * Every entry here is backed by a certificate on file. Most recent first.
+ * The Cisco CCNA entries are Networking Academy course completions, not the
+ * standalone CCNA certification exam, so they keep Cisco's course names.
+ */
+const certifications: Certification[] = [
+  {
+    title: 'CCNA: Enterprise Networking, Security, and Automation',
+    issuer: 'Cisco Networking Academy',
+    date: { year: 2026, month: 7 },
+    ...cert('cisco-ccna-enterprise'),
+  },
+  {
+    title: 'CCNA: Switching, Routing, and Wireless Essentials',
+    issuer: 'Cisco Networking Academy',
+    date: { year: 2026, month: 7 },
+    ...cert('cisco-ccna-switching'),
+  },
+  {
+    title: 'Node: De cero a experto',
+    issuer: 'Udemy · DevTalles',
+    date: { year: 2026, month: 9 },
+    ...cert('udemy-node'),
+  },
+  {
+    title: 'Aprende JavaScript ES9, HTML, CSS3 y NodeJS desde cero',
+    issuer: 'Udemy',
+    date: { year: 2026, month: 9 },
+    ...cert('udemy-javascript-es9'),
+  },
+  {
+    title: 'Introducción a la IA moderna',
+    issuer: 'Cisco Networking Academy',
+    date: { year: 2025, month: 11 },
+    ...cert('cisco-intro-modern-ai'),
+  },
+  {
+    title: 'Introducción al Internet de las Cosas y Transformación Digital',
+    issuer: 'Cisco Networking Academy',
+    date: { year: 2025, month: 11 },
+    ...cert('cisco-intro-iot'),
+  },
+  {
+    title: 'Analyze BigQuery Data in Connected Sheets',
+    issuer: 'Google Cloud',
+    date: { year: 2025, month: 5 },
+    image: '/certificates/google-bigquery.webp',
+    href: 'https://www.credly.com/badges/fb0acaa6-78a6-410f-afc7-d33b78fb65c2',
+    verifiedOn: 'Credly',
+  },
+  {
+    title: 'React: De cero a experto (Hooks y MERN)',
+    issuer: 'Udemy',
+    date: { year: 2021, month: 4 },
+    ...cert('udemy-react-mern'),
+  },
+  {
+    title: 'JavaScript Moderno: Guía para dominar el lenguaje',
+    issuer: 'Udemy',
+    date: { year: 2020, month: 12 },
+    ...cert('udemy-javascript-moderno'),
+  },
+  {
+    title: 'Ultimate JavaScript Part 2: Advanced Topics',
+    issuer: 'Code with Mosh',
+    date: { year: 2020, month: 11 },
+    ...cert('mosh-javascript-2'),
+  },
+  {
+    title: 'Ultimate JavaScript Part 1: Fundamentals',
+    issuer: 'Code with Mosh',
+    date: { year: 2020, month: 11 },
+    ...cert('mosh-javascript-1'),
+  },
+  {
+    title: 'Complete Python Mastery',
+    issuer: 'Code with Mosh',
+    date: { year: 2020, month: 10 },
+    ...cert('mosh-python'),
+  },
+]
+
+const proofs = {
+  hackatec: '/certificates/hackatec-2022.pdf',
+  socialService: '/certificates/servicio-social.pdf',
 }
 
 const email = 'richartvdt@gmail.com'
@@ -161,7 +330,6 @@ const en: Content = {
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     getInTouch: 'Get in touch',
-    viewWork: 'View work',
     profileDetails: 'Profile details',
     location: 'Location',
     studying: 'Studying',
@@ -173,9 +341,24 @@ const en: Content = {
     codeFor: (project) => `for ${project}`,
     demoOf: (project) => `of ${project}`,
     techUsedIn: (project) => `Technologies used in ${project}`,
+    copyEmail: 'Copy email',
+    copied: 'Copied',
+    downloadCv: 'Download CV',
+    cvFile: '/cv/Richart-Vazquez-CV-EN.pdf',
+    cvProfile: 'Profile',
+    stackHeading: 'Stack',
+    mernCaption: 'MongoDB · Express · React · Node.js',
+    viewCertificate: 'View certificate',
+    verifyOn: (platform) => `Verify on ${platform}`,
+    viewDocument: 'View certificate',
+    playVideo: 'Play video',
+    closeDialog: 'Close',
+    previous: 'Previous',
+    next: 'Next',
     sections: {
       work: 'Selected Work',
       story: 'My Story',
+      about: 'About Me',
       approach: 'How I Work',
       skills: 'Technical Skills',
       journey: 'Journey',
@@ -185,6 +368,7 @@ const en: Content = {
   navItems: [
     { id: 'work', label: 'Work' },
     { id: 'story', label: 'Story' },
+    { id: 'about', label: 'About' },
     { id: 'approach', label: 'Approach' },
     { id: 'skills', label: 'Skills' },
     { id: 'journey', label: 'Journey' },
@@ -219,6 +403,16 @@ const en: Content = {
       repo: repos.nbaStats,
     },
     {
+      name: 'Evaluación de Atributos de Egreso',
+      description:
+        'A web platform built during my social service to assess the knowledge expected of graduating students. Students request access and answer a survey per course; coordinators manage courses, attributes, criteria and levels; administrators manage degree programs, students and users and review dashboard reports.',
+      context: 'Social service project · Instituto Tecnológico de Celaya',
+      tech: tech.evaluacionEgreso,
+      learned:
+        'My first system designed around several roles. I built role-based access with JWT stored in HTTP-only cookies, hashed passwords with bcrypt, rate-limited the access-request endpoint and emailed students a temporary password, which made security a design decision from the start rather than an afterthought.',
+      repo: repos.evaluacionEgreso,
+    },
+    {
       name: 'FlightBookApp',
       description:
         'A full-stack airline management and booking application covering several connected business flows, including users, airports, routes, aircraft, flights, seats, reservations, boarding passes, baggage and payments.',
@@ -236,6 +430,16 @@ const en: Content = {
       learned:
         'RuntahPedia taught me how concepts such as state management, persistence, authentication and separation of concerns translate into mobile development. It also gave me experience organizing an application around an MVVM-style architecture rather than putting business logic directly into the interface.',
       repo: repos.runtahPedia,
+    },
+    {
+      name: 'HomeBites',
+      description:
+        'A mobile app for ordering home-cooked food. Users browse kitchens and dishes, save favorites, pay through Stripe, subscribe to a plan and follow their order until it is delivered, with push notifications along the way.',
+      context: 'Mobile development project',
+      tech: tech.homeBites,
+      learned:
+        "HomeBites was my first app with real payments: Stripe's PaymentSheet backed by a server-side payment intent, plus Firebase Cloud Messaging for notifications. I organized the code by feature (auth, products, orders, payments) so each part could grow without tangling the others.",
+      repo: repos.homeBites,
     },
     {
       name: 'Data Warehouse / Business Intelligence',
@@ -270,7 +474,7 @@ const en: Content = {
     { category: 'Frontend & Mobile', items: skillItems.frontend },
     { category: 'Backend', items: skillItems.backend },
     { category: 'Data', items: skillItems.data },
-    { category: 'Tools & Platforms', items: skillItems.tools },
+    { category: 'Cloud & Tools', items: skillItems.cloud },
   ],
   /**
    * Formal education and independent learning on one timeline, oldest first so
@@ -307,6 +511,7 @@ const en: Content = {
       qualification: 'Hackatec',
       detail:
         'Participated in the local phase of Hackatec as part of the National Summit of Technological Development, Research and Innovation.',
+      proof: proofs.hackatec,
     },
     {
       period: '2025 — 2026',
@@ -315,27 +520,79 @@ const en: Content = {
       institution: 'Promoción de la Cultura de Software Libre',
       detail:
         'Completed 480 hours of social service involving collaboration around free software, prototyping or implementation of useful functionality, research and knowledge sharing.',
+      proof: proofs.socialService,
     },
   ],
-  /**
-   * A compact supporting block, deliberately not a certificate list. The Cisco
-   * entries are Networking Academy course completions — not the standalone
-   * CCNA certification exam — so they are named as courses.
-   */
   training: {
-    period: 'Continuous learning',
-    heading: 'Selected training',
-    items: [
-      'Python programming',
-      'JavaScript fundamentals and advanced topics',
-      'JavaScript Moderno',
-      'React: De cero a experto',
-      'Node: De cero a experto',
-      'Google Cloud Computing Foundations',
-      'Analyze BigQuery Data in Connected Sheets',
-      'Gemini for Application Developers',
-      'Cisco Networking Academy — CCNA: Switching, Routing, and Wireless Essentials',
-      'Cisco Networking Academy — CCNA: Enterprise Networking, Security, and Automation',
+    heading: 'Certifications & courses',
+    intro:
+      'Courses I completed alongside my degree. Each one links to its certificate.',
+    items: certifications,
+  },
+  about: {
+    portraitAlt: 'Richart with his mountain bike on a ride with friends',
+    intro:
+      'Besides programming, I like to keep learning and stay active: I go to the gym, play football and head out on bike routes. Different things, but they reward the same habit: showing up consistently and getting a bit better each time.',
+    interests: [
+      {
+        icon: 'learn',
+        title: 'Always learning',
+        body: 'I enjoy picking up new technologies on my own: reading the docs, trying the tools and building something small to understand how they really work.',
+      },
+      {
+        icon: 'gym',
+        title: 'Gym & exercise',
+        body: "I train five times a week and like staying active in general. It taught me that discipline outlasts motivation: progress comes from showing up, especially on the days I don't feel like it.",
+      },
+      {
+        icon: 'football',
+        title: 'Football',
+        body: 'I play it and I follow it. In 2026 I fulfilled a dream: I was lucky enough to win World Cup tickets and watched matches live in Monterrey and at Estadio Azteca, including Mexico vs. England. Being in the stadium for a World Cup at home is something I will never forget.',
+      },
+      {
+        icon: 'bike',
+        title: 'Bike routes',
+        body: 'I like heading out on routes by bike. It is how I disconnect and come back with a clearer head.',
+      },
+    ],
+    galleryHeading: 'World Cup 2026',
+    gallery: [
+      {
+        kind: 'image',
+        ...life('worldcup-monterrey-stadium'),
+        alt: 'Estadio Monterrey before kickoff, with the Cerro de la Silla behind the roof',
+        caption: 'Monterrey',
+      },
+      {
+        kind: 'video',
+        ...clip('worldcup-monterrey'),
+        alt: 'Fans celebrating at pitch level in Monterrey',
+        caption: 'Monterrey',
+      },
+      {
+        kind: 'image',
+        ...life('worldcup-monterrey-match'),
+        alt: 'Opening ceremony in Monterrey with a giant flag on the pitch',
+        caption: 'Monterrey',
+      },
+      {
+        kind: 'image',
+        ...life('worldcup-azteca'),
+        alt: 'Mexico and England flags laid out on the pitch at Estadio Azteca before the match',
+        caption: 'Mexico vs. England · Estadio Azteca',
+      },
+      {
+        kind: 'video',
+        ...clip('worldcup-cdmx'),
+        alt: 'A penalty kick seen from the stands in Mexico City',
+        caption: 'Mexico City',
+      },
+      {
+        kind: 'image',
+        ...life('worldcup-players'),
+        alt: 'Two Mexico players waving to the crowd after the match against England',
+        caption: 'Mexico vs. England · Estadio Azteca',
+      },
     ],
   },
   contactIntro:
@@ -362,7 +619,6 @@ const es: Content = {
     openMenu: 'Abrir menú',
     closeMenu: 'Cerrar menú',
     getInTouch: 'Contáctame',
-    viewWork: 'Ver proyectos',
     profileDetails: 'Datos del perfil',
     location: 'Ubicación',
     studying: 'Estudios',
@@ -374,9 +630,24 @@ const es: Content = {
     codeFor: (project) => `de ${project}`,
     demoOf: (project) => `de ${project}`,
     techUsedIn: (project) => `Tecnologías usadas en ${project}`,
+    copyEmail: 'Copiar email',
+    copied: 'Copiado',
+    downloadCv: 'Descargar CV',
+    cvFile: '/cv/Richart-Vazquez-CV-ES.pdf',
+    cvProfile: 'Perfil',
+    stackHeading: 'Stack',
+    mernCaption: 'MongoDB · Express · React · Node.js',
+    viewCertificate: 'Ver certificado',
+    verifyOn: (platform) => `Verificar en ${platform}`,
+    viewDocument: 'Ver constancia',
+    playVideo: 'Reproducir video',
+    closeDialog: 'Cerrar',
+    previous: 'Anterior',
+    next: 'Siguiente',
     sections: {
       work: 'Proyectos destacados',
       story: 'Mi historia',
+      about: 'Sobre mí',
       approach: 'Cómo trabajo',
       skills: 'Habilidades técnicas',
       journey: 'Trayectoria',
@@ -386,6 +657,7 @@ const es: Content = {
   navItems: [
     { id: 'work', label: 'Proyectos' },
     { id: 'story', label: 'Historia' },
+    { id: 'about', label: 'Sobre mí' },
     { id: 'approach', label: 'Enfoque' },
     { id: 'skills', label: 'Habilidades' },
     { id: 'journey', label: 'Trayectoria' },
@@ -420,6 +692,16 @@ const es: Content = {
       repo: repos.nbaStats,
     },
     {
+      name: 'Evaluación de Atributos de Egreso',
+      description:
+        'Una plataforma web que desarrollé durante mi servicio social para evaluar los conocimientos esperados en los egresados. Los alumnos solicitan acceso y responden una encuesta por materia; los coordinadores gestionan materias, atributos, criterios y niveles; los administradores gestionan carreras, alumnos y usuarios, y consultan reportes en un dashboard.',
+      context: 'Proyecto de servicio social · Instituto Tecnológico de Celaya',
+      tech: tech.evaluacionEgreso,
+      learned:
+        'Mi primer sistema diseñado alrededor de varios roles. Implementé acceso por rol con JWT en cookies HTTP-only, contraseñas cifradas con bcrypt, límite de solicitudes en el registro y envío de una contraseña temporal por correo; la seguridad fue una decisión de diseño desde el inicio, no un agregado al final.',
+      repo: repos.evaluacionEgreso,
+    },
+    {
       name: 'FlightBookApp',
       description:
         'Una aplicación full-stack de gestión y reservas para una aerolínea que abarca varios flujos de negocio conectados: usuarios, aeropuertos, rutas, aeronaves, vuelos, asientos, reservaciones, pases de abordar, equipaje y pagos.',
@@ -437,6 +719,16 @@ const es: Content = {
       learned:
         'RuntahPedia me enseñó cómo conceptos como el manejo de estado, la persistencia, la autenticación y la separación de responsabilidades se traducen al desarrollo móvil. También me dio experiencia organizando una aplicación con una arquitectura tipo MVVM, en lugar de poner la lógica de negocio directamente en la interfaz.',
       repo: repos.runtahPedia,
+    },
+    {
+      name: 'HomeBites',
+      description:
+        'Una app móvil para pedir comida casera. Los usuarios exploran cocinas y platillos, guardan favoritos, pagan con Stripe, se suscriben a un plan y siguen su pedido hasta la entrega, con notificaciones push en el camino.',
+      context: 'Proyecto de desarrollo móvil',
+      tech: tech.homeBites,
+      learned:
+        'HomeBites fue mi primera app con pagos reales: PaymentSheet de Stripe respaldado por un payment intent en el servidor, más Firebase Cloud Messaging para las notificaciones. Organicé el código por funcionalidad (auth, productos, pedidos, pagos) para que cada parte pudiera crecer sin enredarse con las demás.',
+      repo: repos.homeBites,
     },
     {
       name: 'Data Warehouse / Business Intelligence',
@@ -467,7 +759,7 @@ const es: Content = {
     { category: 'Frontend & Mobile', items: skillItems.frontend },
     { category: 'Backend', items: skillItems.backend },
     { category: 'Datos', items: skillItems.data },
-    { category: 'Herramientas y plataformas', items: skillItems.tools },
+    { category: 'Cloud y herramientas', items: skillItems.cloud },
   ],
   journey: [
     {
@@ -500,6 +792,7 @@ const es: Content = {
       qualification: 'Hackatec',
       detail:
         'Participé en la etapa local de Hackatec, parte de la Cumbre Nacional de Desarrollo Tecnológico, Investigación e Innovación.',
+      proof: proofs.hackatec,
     },
     {
       period: '2025 — 2026',
@@ -508,22 +801,79 @@ const es: Content = {
       institution: 'Promoción de la Cultura de Software Libre',
       detail:
         'Completé 480 horas de servicio social colaborando en torno al software libre: prototipado o implementación de funcionalidades útiles, investigación y difusión de conocimiento.',
+      proof: proofs.socialService,
     },
   ],
   training: {
-    period: 'Aprendizaje continuo',
-    heading: 'Formación complementaria',
-    items: [
-      'Python programming',
-      'JavaScript fundamentals and advanced topics',
-      'JavaScript Moderno',
-      'React: De cero a experto',
-      'Node: De cero a experto',
-      'Google Cloud Computing Foundations',
-      'Analyze BigQuery Data in Connected Sheets',
-      'Gemini for Application Developers',
-      'Cisco Networking Academy — CCNA: Switching, Routing, and Wireless Essentials',
-      'Cisco Networking Academy — CCNA: Enterprise Networking, Security, and Automation',
+    heading: 'Certificaciones y cursos',
+    intro:
+      'Cursos que completé en paralelo a la carrera. Cada uno enlaza a su certificado.',
+    items: certifications,
+  },
+  about: {
+    portraitAlt: 'Richart con su bicicleta de montaña en una ruta con amigos',
+    intro:
+      'Además de programar, me gusta seguir aprendiendo y mantenerme activo: voy al gimnasio, juego fútbol y salgo de ruta en bici. Son cosas distintas, pero premian el mismo hábito: ser constante y mejorar un poco cada vez.',
+    interests: [
+      {
+        icon: 'learn',
+        title: 'Aprender siempre',
+        body: 'Disfruto aprender tecnologías nuevas por mi cuenta: leer la documentación, probar las herramientas y construir algo pequeño para entender cómo funcionan de verdad.',
+      },
+      {
+        icon: 'gym',
+        title: 'Gimnasio y ejercicio',
+        body: 'Entreno cinco veces por semana y en general me gusta mantenerme activo. Me enseñó que la disciplina dura más que la motivación: el progreso llega por presentarse, sobre todo los días que no tengo ganas.',
+      },
+      {
+        icon: 'football',
+        title: 'Fútbol',
+        body: 'Me gusta jugarlo y seguirlo. En 2026 cumplí un sueño: tuve la suerte de ganarme boletos para el Mundial y vi partidos en vivo en Monterrey y en el Estadio Azteca, incluido el México vs. Inglaterra. Estar en el estadio en un Mundial en casa es algo que nunca voy a olvidar.',
+      },
+      {
+        icon: 'bike',
+        title: 'Rutas en bici',
+        body: 'Me gusta salir de ruta en bici. Es mi forma de desconectarme y volver con la cabeza más clara.',
+      },
+    ],
+    galleryHeading: 'Mundial 2026',
+    gallery: [
+      {
+        kind: 'image',
+        ...life('worldcup-monterrey-stadium'),
+        alt: 'El Estadio Monterrey antes del partido, con el Cerro de la Silla detrás del techo',
+        caption: 'Monterrey',
+      },
+      {
+        kind: 'video',
+        ...clip('worldcup-monterrey'),
+        alt: 'Aficionados celebrando a nivel de cancha en Monterrey',
+        caption: 'Monterrey',
+      },
+      {
+        kind: 'image',
+        ...life('worldcup-monterrey-match'),
+        alt: 'Ceremonia previa en Monterrey con una bandera gigante sobre la cancha',
+        caption: 'Monterrey',
+      },
+      {
+        kind: 'image',
+        ...life('worldcup-azteca'),
+        alt: 'Las banderas de México e Inglaterra extendidas en la cancha del Estadio Azteca antes del partido',
+        caption: 'México vs. Inglaterra · Estadio Azteca',
+      },
+      {
+        kind: 'video',
+        ...clip('worldcup-cdmx'),
+        alt: 'Un penal visto desde la tribuna en la Ciudad de México',
+        caption: 'Ciudad de México',
+      },
+      {
+        kind: 'image',
+        ...life('worldcup-players'),
+        alt: 'Dos jugadores de México saludan a la afición después del partido contra Inglaterra',
+        caption: 'México vs. Inglaterra · Estadio Azteca',
+      },
     ],
   },
   contactIntro:
